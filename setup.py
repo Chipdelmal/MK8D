@@ -9,7 +9,9 @@ with open(os.path.join(this_directory, 'MK8D', '_version.py'), 'wt') as fversion
 
 
 REQUIRED_PACKAGES=[
-    'matplotlib>=3.3.2'
+    'matplotlib>=3.3.2',
+    'xmltodict>=0.12.0',
+    'pandas>=1.1.4'
 ]
 
 
@@ -22,7 +24,7 @@ setuptools.setup(
     install_requires=REQUIRED_PACKAGES,                         # all requirements used by this package
     version=this_version,                                       # project version, read from version.py
     author="chipdelmal",                                        # Author, shown on PyPI
-    scripts = [],                                               # command line scripts installed
+    scripts=[],                                                 # command line scripts installed
     author_email="chipdelmal@gmail.com",                        # Author email
     description="Mario Kart 8 Deluxe livesplit analyzer",       # Short description of project
     long_description=long_description,                          # Long description, shown on PyPI

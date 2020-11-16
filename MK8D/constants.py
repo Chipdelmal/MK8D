@@ -1,6 +1,5 @@
 
 
-
 TRACKS = [
     'Mario Kart Stadium', 'Water Park', 'Sweet Sweet Canyon', 'Thwomp Ruins',
     'Mario Circuit', 'Toad Harbor', 'Twisted Mansion', 'Shy Guy Falls',
