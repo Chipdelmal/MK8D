@@ -9,9 +9,8 @@ with open(os.path.join(this_directory, 'MK8D', '_version.py'), 'wt') as fversion
 
 
 REQUIRED_PACKAGES=[
-    'matplotlib>=3.3.2',
-    'xmltodict>=0.12.0',
-    'pandas>=1.1.4'
+    'matplotlib>=3.3.2', 'xmltodict>=0.12.0',
+    'pandas>=1.1.4', 'numpy>=1.19.4'
 ]
 
 
