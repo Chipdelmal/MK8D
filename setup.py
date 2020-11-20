@@ -4,7 +4,8 @@ import setuptools
 from version import version as this_version
 
 this_directory =  os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(this_directory, 'MK8D', '_version.py'), 'wt') as fversion:
+version_path = os.path.join(this_directory, 'MK8D', '_version.py')
+with open(version_path, 'wt') as fversion:
     fversion.write('__version__ = "'+this_version+'"')
 
 
