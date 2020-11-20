@@ -8,6 +8,5 @@ import pandas as pd
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss'
 )
 FILEPATH = path.join(PT_FL, FILENAME)
-runs = mk.parseRunsFromFile(FILEPATH, metadata=True)
-trks = mk.getRunsDict(runs)
-data = mk.getRunsDataframe(runs, trks)
+data = mk.getRunsDataframeFromFile(FILEPATH, metadata=True)
+data.tail()

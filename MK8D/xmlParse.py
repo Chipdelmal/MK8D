@@ -5,6 +5,9 @@ from collections import OrderedDict
 import MK8D.auxiliary as aux
 
 
+###############################################################################
+# XML Dictionary 
+###############################################################################
 def getDictFromXMLFile(filePath):
     with open(filePath) as fd:
         doc = parse(fd.read())
@@ -34,8 +37,10 @@ def getCategory(doc):
     ct = doc['Run']['CategoryName']
     return ct
 
-    
 
+###############################################################################
+# Runs dictionary
+###############################################################################
 def parseRunsFromFile(filePath, metadata=True):
     # Load file into dictionary and get segments
     doc = getDictFromXMLFile(filePath)
@@ -71,7 +76,9 @@ def getRunsDict(runs):
     return tracks
 
 
-
+###############################################################################
+# Dataframe
+###############################################################################
 def getTrackList(runs, tracks, name):
     # Constant data and track info
     (spd, itm, cat, ver) = (
@@ -87,7 +94,6 @@ def getTrackList(runs, tracks, name):
     return trackList
 
 
-
 def getRunsDataframe(runs, tracks):
     tracksNames = list(tracks.keys())
     tracksList = []
@@ -96,3 +102,10 @@ def getRunsDataframe(runs, tracks):
     columns = ['Track', 'Time', 'ID', 'Version', 'Items', 'Speed', 'Category']
     runsDataframe = pd.DataFrame(tracksList, columns=columns)
     return runsDataframe
+
+
+def getRunsDataframeFromFile(file, metadata=True):
+    runs = parseRunsFromFile(file, metadata=True)
+    trks = getRunsDict(runs)
+    data = getRunsDataframe(runs, trks)
+    return data
