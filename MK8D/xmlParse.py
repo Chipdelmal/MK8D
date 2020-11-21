@@ -88,7 +88,7 @@ def getTrackList(runs, tracks, name):
     # Run ID with timings
     (ids, times) = (list(track.keys()), list(track.values()))
     trackList = [
-        (name, time, int(key), ver, itm, spd, cat)
+        (int(key), name, time, ver, itm, spd, cat)
         for (key, time) in zip(ids, times)
     ] 
     return trackList
@@ -99,7 +99,7 @@ def getRunsDataframe(runs, tracks):
     tracksList = []
     for i in tracksNames:
         tracksList.extend(getTrackList(runs, tracks, i))
-    columns = ['Track', 'Time', 'ID', 'Version', 'Items', 'Speed', 'Category']
+    columns = ['ID', 'Track', 'Time', 'Version', 'Items', 'Speed', 'Category']
     runsDataframe = pd.DataFrame(tracksList, columns=columns)
     return runsDataframe
 
@@ -109,3 +109,9 @@ def getRunsDataframeFromFile(file, metadata=True):
     trks = getRunsDict(runs)
     data = getRunsDataframe(runs, trks)
     return data
+
+
+def compileRunsDataframeFromFiles(filesList, metadata=True):
+    dfs = [getRunsDataframeFromFile(i, metadata=metadata) for i in filesList]
+    df = pd.concat(dfs)
+    return df
