@@ -17,7 +17,7 @@ data = mk.getRunsDataframeFromFile(FILEPATH, metadata=True)
 data.to_csv(path.join(PT_FL, OUT), index=False)
 
 ###############################################################################
-# Generate and export one dataframe
+# Concatenate and export one dataframe from files list
 ###############################################################################
 FILENAMES = (
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss',
@@ -28,3 +28,9 @@ FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
 data = mk.compileRunsDataframeFromFiles(FILEPATHS)
 data.to_csv(path.join(PT_FL, OUT), index=False)
 
+###############################################################################
+# Traces Plot
+###############################################################################
+fshdRunsIDs = mk.getFinishedRunsID(data, mk.TRACKS)
+fshdRuns = mk.getFinishedRuns(data, mk.TRACKS)
+fshdRuns

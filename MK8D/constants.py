@@ -41,3 +41,8 @@ CUPS = {
     'Bell':  
         ['3DS Neo Bowser City', 'GBA Ribbon Road', 'Super Bell Subway','Big Blue']
 }
+
+CUPS_ORDER = (
+    'Mushroom', 'Flower', 'Star', 'Special', 'Shell', 'Banana', 
+    'Leaf', 'Lightning', 'Egg', 'Triforce', 'Crossing', 'Bell'
+)
