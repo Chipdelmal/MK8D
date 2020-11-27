@@ -4,19 +4,20 @@ import pandas as pd
 import MK8D.constants as cnst
 
 
-def getFinishedRunsID(data, tracks):
+def getFinishedRunsID(data, tracks=cnst.TRACKS):
     runsIds = []
-    for i in cnst.TRACKS:
+    for i in tracks:
         filtr = (data['Track']== i)
         runsIds.append(set(data['ID'][filtr]))
     finishedRuns = set.intersection(*runsIds)
     return finishedRuns
 
 
-def getFinishedRuns(data, tracks):
-    fshdRuns = getFinishedRunsID(data, cnst.TRACKS)
-    fltr = data['ID'].isin(fshdRuns)
-    return data[fltr]
+def getFinishedRuns(data, tracks=cnst.TRACKS):
+    fshdRuns = getFinishedRunsID(data, tracks)
+    fltr = (data['ID'].isin(fshdRuns), data['Track'].isin(set(tracks)))
+    fltrBool = [all(i) for i in zip(*fltr)]
+    return data[fltrBool]
 
 
 def getTrackTime(data, rid, track):
@@ -39,12 +40,12 @@ def convertRunCTime(runData, tracks=cnst.TRACKS):
     return runData
 
 
-def convertFinishedRunsToCTimes(data, fshdRIds):
+def convertFinishedRunsToCTimes(data, fshdRIds, tracks=cnst.TRACKS):
     fshdRunsIDList = list(fshdRIds)
     runsCTimesDataList = []
     for rid in fshdRunsIDList:
         runData = getRunByID(data, rid)
-        runDataCTime = convertRunCTime(runData, tracks=cnst.TRACKS)
+        runDataCTime = convertRunCTime(runData, tracks=tracks)
         runsCTimesDataList.append(runDataCTime)
     runsCTimes = pd.concat(runsCTimesDataList)
     return runsCTimes

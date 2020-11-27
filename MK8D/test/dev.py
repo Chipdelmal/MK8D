@@ -2,6 +2,7 @@
 import MK8D as mk
 from os import path
 import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 
 
@@ -26,13 +27,18 @@ FILENAMES = (
 )
 OUT = 'MK8D_Full.csv'
 FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
-data = mk.compileRunsDataframeFromFiles(FILEPATHS)
+data = mk.compileRunsDataframeFromFiles(FILEPATHS, prependID=True)
 data.to_csv(path.join(PT_FL, OUT), index=False)
 
 ###############################################################################
 # Traces Plot
 ###############################################################################
-fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, mk.TRACKS)))
-fshdRuns = mk.getFinishedRuns(data, mk.TRACKS)
-runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs)
-runsCTimes
+tracksFltr = mk.TRACKS
+fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
+fshdRuns = mk.getFinishedRuns(data, tracksFltr)
+runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
+
+
+
+fig = px.line(runsCTimes, x="Track", y="Time", color='ID')
+fig

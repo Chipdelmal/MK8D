@@ -79,7 +79,7 @@ def getRunsDict(runs):
 ###############################################################################
 # Dataframe
 ###############################################################################
-def getTrackList(runs, tracks, name, prependID=''):
+def getTrackList(runs, tracks, name, prependID='', zfill=5):
     # Constant data and track info
     (spd, itm, cat, ver) = (
         runs['speed'], runs['items'], runs['category'], runs['version']
@@ -88,7 +88,10 @@ def getTrackList(runs, tracks, name, prependID=''):
     # Run ID with timings
     (ids, times) = (list(track.keys()), list(track.values()))
     trackList = [
-        (prependID+'_'+str(key), name, time, ver, itm, spd, cat)
+        (
+            prependID+'_'+str(key).zfill(zfill), 
+            name, time, ver, itm, spd, cat
+        )
         for (key, time) in zip(ids, times)
     ] 
     return trackList
