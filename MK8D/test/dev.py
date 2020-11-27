@@ -22,7 +22,7 @@ data.to_csv(path.join(PT_FL, OUT), index=False)
 ###############################################################################
 FILENAMES = (
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss', 
-    # 'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss'
+    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss'
 )
 OUT = 'MK8D_Full.csv'
 FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]

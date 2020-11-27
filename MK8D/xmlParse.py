@@ -79,7 +79,7 @@ def getRunsDict(runs):
 ###############################################################################
 # Dataframe
 ###############################################################################
-def getTrackList(runs, tracks, name):
+def getTrackList(runs, tracks, name, prependID=''):
     # Constant data and track info
     (spd, itm, cat, ver) = (
         runs['speed'], runs['items'], runs['category'], runs['version']
@@ -88,30 +88,39 @@ def getTrackList(runs, tracks, name):
     # Run ID with timings
     (ids, times) = (list(track.keys()), list(track.values()))
     trackList = [
-        (int(key), name, time, ver, itm, spd, cat)
+        (prependID+'_'+str(key), name, time, ver, itm, spd, cat)
         for (key, time) in zip(ids, times)
     ] 
     return trackList
 
 
-def getRunsDataframe(runs, tracks):
+def getRunsDataframe(runs, tracks, prependID=''):
     tracksNames = list(tracks.keys())
     tracksList = []
     for i in tracksNames:
-        tracksList.extend(getTrackList(runs, tracks, i))
+        tracksList.extend(getTrackList(runs, tracks, i, prependID=prependID))
     columns = ['ID', 'Track', 'Time', 'Version', 'Items', 'Speed', 'Category']
     runsDataframe = pd.DataFrame(tracksList, columns=columns)
     return runsDataframe
 
 
-def getRunsDataframeFromFile(file, metadata=True):
+def getRunsDataframeFromFile(file, metadata=True, prependID=''):
     runs = parseRunsFromFile(file, metadata=True)
     trks = getRunsDict(runs)
-    data = getRunsDataframe(runs, trks)
+    data = getRunsDataframe(runs, trks, prependID=prependID)
     return data
 
 
-def compileRunsDataframeFromFiles(filesList, metadata=True):
-    dfs = [getRunsDataframeFromFile(i, metadata=metadata) for i in filesList]
+def compileRunsDataframeFromFiles(filesList, metadata=True, prependID=True):
+    if prependID:
+        dfs = [
+            getRunsDataframeFromFile(file, metadata=metadata, prependID=str(i)) 
+            for (i, file) in enumerate(filesList)
+        ]
+    else:
+        dfs = [
+            getRunsDataframeFromFile(file, metadata=metadata, prependID='') 
+            for (i, file) in enumerate(filesList)
+        ]
     df = pd.concat(dfs)
     return df
