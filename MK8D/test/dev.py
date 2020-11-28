@@ -31,7 +31,7 @@ data = mk.compileRunsDataframeFromFiles(FILEPATHS, prependID=True)
 data.to_csv(path.join(PT_FL, OUT), index=False)
 
 ###############################################################################
-# Traces Plot
+# Filter for finished runs
 ###############################################################################
 tracksFltr = mk.TRACKS
 fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
@@ -39,6 +39,10 @@ fshdRuns = mk.getFinishedRuns(data, tracksFltr)
 runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
 
 
-
+###############################################################################
+# Traces plot
+###############################################################################
 fig = px.line(runsCTimes, x="Track", y="Time", color='ID')
 fig
+
+

@@ -34,7 +34,7 @@ def convertRunCTime(runData, tracks=cnst.TRACKS):
     runData['Track'] = pd.Categorical(
         runData.Track, categories=tracks, ordered=True
     )
-    runData.sort_values(by='Track')
+    runData = runData.sort_values(by='Track')
     cTime = np.cumsum([getTrackTime(runData, rid, track) for track in tracks])
     runData['Time'] = cTime
     return runData
