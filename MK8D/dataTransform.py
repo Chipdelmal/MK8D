@@ -22,7 +22,7 @@ def getFinishedRuns(data, tracks=cnst.TRACKS):
 
 def getTrackTime(data, rid, track):
     row = data[data['ID'] == rid]
-    return float(row[data['Track'] == track]['Time'])
+    return float(row[row['Track'] == track]['Time'])
 
 
 def getRunByID(data, rid):
@@ -49,3 +49,9 @@ def convertFinishedRunsToCTimes(data, fshdRIds, tracks=cnst.TRACKS):
         runsCTimesDataList.append(runDataCTime)
     runsCTimes = pd.concat(runsCTimesDataList)
     return runsCTimes
+
+
+def centerTrackTimes(times, centerFunction=np.mean):
+    offset = centerFunction(trackTimes)
+    offsetTimes = [(i - offset) for i in trackTimes]
+    return offsetTimes

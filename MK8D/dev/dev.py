@@ -2,6 +2,7 @@
 import MK8D as mk
 from os import path
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -43,4 +44,19 @@ runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
 ###############################################################################
 fig = px.line(runsCTimes, x="Track", y="Time", color='ID')
 fig
+
+###############################################################################
+# Center CTimes around value
+###############################################################################
+data = runsCTimes
+centerFunction = np.min
+
+ids = list(runsCTimes['ID'].unique())
+tracks = list(data['Track'].unique())
+
+track = tracks[0]
+trackTimes = [mk.getTrackTime(data, i, track) for i in ids]
+mk.centerTrackTimes(trackTimes, centerFunction=np.min)
+
+
 
