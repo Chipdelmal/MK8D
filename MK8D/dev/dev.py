@@ -44,4 +44,3 @@ runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
 fig = px.line(runsCTimes, x="Track", y="Time", color='ID')
 fig
 
-
