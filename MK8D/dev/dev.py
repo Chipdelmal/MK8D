@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 # Generate and export one dataframe
 ###############################################################################
 (PT_FL, FILENAME, OUT) = (
-    '/home/chipdelmal/Documents/GitHub/mk8dLivesplit/dta/',
+    './data/',
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss',
     'MK8D.csv'
 )
@@ -37,7 +37,6 @@ tracksFltr = mk.TRACKS
 fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
 fshdRuns = mk.getFinishedRuns(data, tracksFltr)
 runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
-
 
 ###############################################################################
 # Traces plot

@@ -1,4 +1,7 @@
 
+# CSV Output files
+*.csv
+
 # VSCode
 .vscode
 
