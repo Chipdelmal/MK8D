@@ -39,11 +39,11 @@ def tStrToSecs(tStr, refTime=REFT):
 
 
 def secToMin(sec, prec=-4):
-    return str(timedelta(seconds=sec))[2:prec]
+    return timedelta(seconds=sec)
 
 
 def minsToHr(mins, prec=-4):
-    return str(timedelta(minutes=mins))[:prec]
+    return timedelta(minutes=mins)
 
 
 def scaleDevs(x, tDevs):

@@ -42,13 +42,18 @@ runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
 ###############################################################################
 # Traces plot
 ###############################################################################
-fig = px.line(runsCTimes, x="Track", y="Time", color='ID')
+fig = px.line(
+    mk.convertTimeFromSec(runsCTimes, timeTarget='Hours'),
+    x="Track", y="Time", color='ID'
+)
 fig
 
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-runCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=np.min)
-fig = px.line(runCTimesC, x="Track", y="Time", color='ID')
+runsCTimesC = mk.convertTimeFromSec(
+        mk.centerRunsCTimes(runsCTimes, centerFunction=np.min),
+        timeTarget='Minutes'
+    )
+fig = px.line(runsCTimesC, x="Track", y="Time", color='ID')
 fig
-

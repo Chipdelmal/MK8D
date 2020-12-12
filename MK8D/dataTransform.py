@@ -78,3 +78,15 @@ def centerRunsCTimes(runsCTimes, centerFunction=np.mean):
             runsCTimesC[selector]['Time'] = ids[j]
             runsCTimesC.loc[selector, 'Time'] = time
     return runsCTimesC
+
+
+def convertTimeFromSec(data, timeTarget='Hours'):
+    dataTemp = data.copy()
+    if timeTarget == 'Hours':
+        timeFun = lambda x: x / (60 * 60)
+    elif timeTarget == 'Minutes':
+        timeFun = lambda x: x / 60
+    else:
+        return 'Available options are: Hours and Minutes'
+    dataTemp['Time'] = dataTemp['Time'].apply(lambda x: timeFun(x))
+    return dataTemp
