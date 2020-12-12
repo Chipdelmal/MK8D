@@ -52,6 +52,6 @@ def convertFinishedRunsToCTimes(data, fshdRIds, tracks=cnst.TRACKS):
 
 
 def centerTrackTimes(times, centerFunction=np.mean):
-    offset = centerFunction(trackTimes)
-    offsetTimes = [(i - offset) for i in trackTimes]
+    offset = centerFunction(times)
+    offsetTimes = [(i - offset) for i in times]
     return offsetTimes
