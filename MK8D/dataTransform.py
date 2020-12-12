@@ -55,3 +55,26 @@ def centerTrackTimes(times, centerFunction=np.mean):
     offset = centerFunction(times)
     offsetTimes = [(i - offset) for i in times]
     return offsetTimes
+
+
+def centerRunsCTimes(runsCTimes, centerFunction=np.mean):
+    # Get unique run ID and tracks names 
+    (ids, tracks) = (
+        list(runsCTimes['ID'].unique()), 
+        list(runsCTimes['Track'].unique())
+    )
+    # Create copy to store modified dataframe
+    runsCTimesC = runsCTimes.copy()
+    # Iterate through tracks to get the "center" and shift times around it
+    for track in tracks:
+        trackTimes = [getTrackTime(runsCTimes, i, track) for i in ids]
+        centered = centerTrackTimes(
+            trackTimes, centerFunction=centerFunction
+        )
+        # Replace centered time in the copied dataframe
+        for (j, time) in enumerate(centered):
+            fltr = (runsCTimesC['Track'] == track, runsCTimes['ID'] == ids[j])
+            selector = [all(i) for i in zip(*fltr)]
+            runsCTimesC[selector]['Time'] = ids[j]
+            runsCTimesC.loc[selector, 'Time'] = time
+    return runsCTimesC

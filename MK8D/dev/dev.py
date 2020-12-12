@@ -48,27 +48,7 @@ fig
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-data = runsCTimes
-centerFunction = np.max
-
-(ids, tracks) = (
-    list(runsCTimes['ID'].unique()), 
-    list(data['Track'].unique())
-)
-
-runsCTimesC = runsCTimes.copy()
-
-for track in tracks:
-    trackTimes = [mk.getTrackTime(data, i, track) for i in ids]
-    centered = mk.centerTrackTimes(trackTimes, centerFunction=centerFunction)
-    # Replace centered time in the copied dataframe
-    for (j, time) in enumerate(centered):
-        fltr = (runsCTimesC['Track'] == track, runsCTimes['ID'] == ids[j])
-        selector = [all(i) for i in zip(*fltr)]
-        runsCTimesC[selector]['Time'] = ids[j]
-        runsCTimesC.loc[selector, 'Time'] = time
-
-fig = px.line(runsCTimesC, x="Track", y="Time", color='ID')
+runCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=np.min)
+fig = px.line(runCTimesC, x="Track", y="Time", color='ID')
 fig
-
 
