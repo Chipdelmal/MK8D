@@ -1,8 +1,9 @@
 
 import MK8D as mk
+import numpy as np
 from os import path
 import pandas as pd
-import numpy as np
+from colour import Color
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -24,7 +25,7 @@ data.to_csv(path.join(PT_FL, OUT), index=False)
 ###############################################################################
 FILENAMES = (
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss', 
-    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss'
+    # 'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss'
 )
 OUT = 'MK8D_Full.csv'
 FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
@@ -52,8 +53,23 @@ fig
 # Center CTimes around value
 ###############################################################################
 runsCTimesC = mk.convertTimeFromSec(
-        mk.centerRunsCTimes(runsCTimes, centerFunction=np.min),
+        mk.centerRunsCTimes(runsCTimes, centerFunction=np.mean),
         timeTarget='Minutes'
     )
-fig = px.line(runsCTimesC, x="Track", y="Time", color='ID')
+fig = px.line(
+    runsCTimesC, x="Track", y="Time", color='ID',
+    color_discrete_sequence=colorsList
+)
 fig
+
+
+
+
+runsNum = len(fshdRunsIDs)
+colorsList = [None] * runsNum
+for i in range(runsNum):
+    c = Color("#233090")
+    rgb = c.get_rgb()
+    colorsList[i] = 'rgba'+ str((rgb[0], rgb[1], rgb[2], i/runsNum))
+colorsList
+
