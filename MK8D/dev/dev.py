@@ -65,11 +65,14 @@ fig
 
 
 
-runsNum = len(fshdRunsIDs)
+(alphaOffset, lumaOffset, runsNum) = (.25, .25, len(fshdRunsIDs))
 colorsList = [None] * runsNum
 for i in range(runsNum):
     c = Color("#233090")
+    baseLum = 1 - c.get_luminance()
+    print(1 - (baseLum + ((1-baseLum)/runsNum * i)))
+    c.set_luminance((baseLum - ((1-baseLum)/runsNum * i)))
     rgb = c.get_rgb()
-    colorsList[i] = 'rgba'+ str((rgb[0], rgb[1], rgb[2], i/runsNum))
+    colorsList[i] = 'rgba'+ str((rgb[0], rgb[1], rgb[2], alphaOffset + ((1-alphaOffset) * i/runsNum)))
 colorsList
 
