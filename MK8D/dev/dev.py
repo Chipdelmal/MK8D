@@ -56,23 +56,19 @@ runsCTimesC = mk.convertTimeFromSec(
         mk.centerRunsCTimes(runsCTimes, centerFunction=np.mean),
         timeTarget='Minutes'
     )
-fig = px.line(
-    runsCTimesC, x="Track", y="Time", color='ID',
-    color_discrete_sequence=colorsList
+
+
+###############################################################################
+# Plot
+###############################################################################
+colorSwatch = mk.generateColorSwatch(
+    '#233090', len(fshdRunsIDs), 
+    alphaOffset=.35, lumaOffset=.75
 )
+fig = px.line(
+    runsCTimesC, x="Track", y="Time", color='ID', line_shape='spline',
+    color_discrete_sequence=['rgba' + str(i) for i in colorSwatch]
+)
+fig.update_traces(line=dict(width=0.5))
+fig.update_xaxes(range=[-2, 48+1])
 fig
-
-
-
-
-(alphaOffset, lumaOffset, runsNum) = (.25, .25, len(fshdRunsIDs))
-colorsList = [None] * runsNum
-for i in range(runsNum):
-    c = Color("#233090")
-    baseLum = 1 - c.get_luminance()
-    print(1 - (baseLum + ((1-baseLum)/runsNum * i)))
-    c.set_luminance((baseLum - ((1-baseLum)/runsNum * i)))
-    rgb = c.get_rgb()
-    colorsList[i] = 'rgba'+ str((rgb[0], rgb[1], rgb[2], alphaOffset + ((1-alphaOffset) * i/runsNum)))
-colorsList
-

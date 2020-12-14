@@ -12,7 +12,7 @@ with open(version_path, 'wt') as fversion:
 REQUIRED_PACKAGES=[
     'matplotlib>=3.3.2', 'xmltodict>=0.12.0',
     'pandas>=1.1.4', 'numpy>=1.19.4', 'plotly>=4.13.0',
-    'plotly-express>=0.4.1'
+    'plotly-express>=0.4.1', 'colour>=0.1.5'
 ]
 
 
