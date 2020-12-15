@@ -1,7 +1,4 @@
 
-
-# Python Program to Convert seconds 
-# into hours, minutes and seconds 
   
 import time 
 import MK8D as mk
@@ -16,11 +13,11 @@ import plotly.graph_objects as go
 ###############################################################################
 # Generate and export one dataframe
 ###############################################################################
-# (PT_FL, FILENAME, OUT) = (
-#     './data/',
-#     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss',
-#     'MK8D.csv'
-# )
+(PT_FL, FILENAME, OUT) = (
+    './data/',
+    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss',
+    'MK8D.csv'
+)
 # FILEPATH = path.join(PT_FL, FILENAME)
 # data = mk.getRunsDataframeFromFile(FILEPATH, metadata=True)
 # data.to_csv(path.join(PT_FL, OUT), index=False)
@@ -57,9 +54,7 @@ fig
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-(runsCTimesC, offsets) = mk.centerRunsCTimes(runsCTimes, centerFunction=np.mean)
-runsCTimesC = mk.convertTimeFromSec(runsCTimesC, timeTarget='Minutes')
-
+runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=np.mean)
 
 ###############################################################################
 # Plot
@@ -67,13 +62,13 @@ runsCTimesC = mk.convertTimeFromSec(runsCTimesC, timeTarget='Minutes')
 colorSwatch = mk.generateColorSwatch(
     '#233090', len(fshdRunsIDs), alphaOffset=.35, lumaOffset=.2
 )
+runsCTimesC = mk.convertTimeFromSec(runsCTimesC, timeTarget='Minutes')
 runsCTimesC['Total'] = [time.strftime("%H:%M:%S", time.gmtime(i)) for i in runsCTimes['Time']]
 fig = px.line(
-    runsCTimesC, x="Track", y="Time", color='ID',
+    runsCTimesC, x="Track", y="Time Offset", color='ID',
     color_discrete_sequence=['rgba' + str(i) for i in colorSwatch],
     hover_data=['Total']
 )
 fig.update_traces(line=dict(width=0.5))
 fig.update_xaxes(range=[-2, 48+1])
-
 
