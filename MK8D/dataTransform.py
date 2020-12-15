@@ -54,7 +54,7 @@ def convertFinishedRunsToCTimes(data, fshdRIds, tracks=cnst.TRACKS):
 def centerTrackTimes(times, centerFunction=np.mean):
     offset = centerFunction(times)
     offsetTimes = [(i - offset) for i in times]
-    return offsetTimes
+    return (offsetTimes, offset)
 
 
 def centerRunsCTimes(runsCTimes, centerFunction=np.mean):
@@ -65,19 +65,21 @@ def centerRunsCTimes(runsCTimes, centerFunction=np.mean):
     )
     # Create copy to store modified dataframe
     runsCTimesC = runsCTimes.copy()
+    offsets = []
     # Iterate through tracks to get the "center" and shift times around it
     for track in tracks:
         trackTimes = [getTrackTime(runsCTimes, i, track) for i in ids]
-        centered = centerTrackTimes(
+        (centered, center) = centerTrackTimes(
             trackTimes, centerFunction=centerFunction
         )
+        offsets.append(center)
         # Replace centered time in the copied dataframe
         for (j, time) in enumerate(centered):
             fltr = (runsCTimesC['Track'] == track, runsCTimes['ID'] == ids[j])
             selector = [all(i) for i in zip(*fltr)]
             runsCTimesC[selector]['Time'] = ids[j]
             runsCTimesC.loc[selector, 'Time'] = time
-    return runsCTimesC
+    return (runsCTimesC, offsets)
 
 
 def convertTimeFromSec(data, timeTarget='Hours'):
