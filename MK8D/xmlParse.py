@@ -108,7 +108,7 @@ def getRunsDataframe(runs, tracks, prependID=''):
 
 
 def getRunsDataframeFromFile(file, metadata=True, prependID=''):
-    runs = parseRunsFromFile(file, metadata=True)
+    runs = parseRunsFromFile(file, metadata=metadata)
     trks = getRunsDict(runs)
     data = getRunsDataframe(runs, trks, prependID=prependID)
     return data

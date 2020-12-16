@@ -1,6 +1,7 @@
 
   
 import time 
+from datetime import datetime
 import MK8D as mk
 import numpy as np
 from os import path
@@ -73,3 +74,15 @@ fig = px.line(
 fig.update_traces(line=dict(width=0.5))
 fig.update_xaxes(range=[-2, 48+1])
 
+
+###############################################################################
+# Date
+###############################################################################
+FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
+doc = mk.getDictFromXMLFile(FILEPATHS[0])
+history = doc['Run']['AttemptHistory']['Attempt']
+getAttemptsDates = [
+    (i['@id'], datetime.strptime(i['@started'][:-3], '%m/%d/%Y %H:%M')) 
+    for i in history
+]
+ids = ['{} ({})'.format(i[1].strftime("%d/%m/%Y"), str(i[0]).zfill(4)) for i in getAttemptsDates]
