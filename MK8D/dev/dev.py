@@ -85,4 +85,8 @@ getAttemptsDates = [
     (i['@id'], datetime.strptime(i['@started'][:-3], '%m/%d/%Y %H:%M')) 
     for i in history
 ]
-ids = ['{} ({})'.format(i[1].strftime("%d/%m/%Y"), str(i[0]).zfill(4)) for i in getAttemptsDates]
+strFmt = '%d/%m/%-y'
+ids = {
+    i[0]: '{} ({})'.format(i[1].strftime(strFmt), str(i[0]).zfill(4)) 
+    for i in getAttemptsDates
+}
