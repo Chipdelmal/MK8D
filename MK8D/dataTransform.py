@@ -58,6 +58,7 @@ def centerTrackTimes(times, centerFunction=np.mean):
 
 
 def centerRunsCTimes(runsCTimes, centerFunction=np.mean):
+    cName = centerFunction.__name__
     # Get unique run ID and tracks names 
     (ids, tracks) = (
         list(runsCTimes['ID'].unique()), 
@@ -78,8 +79,8 @@ def centerRunsCTimes(runsCTimes, centerFunction=np.mean):
             fltr = (runsCTimesC['Track'] == track, runsCTimes['ID'] == ids[j])
             selector = [all(i) for i in zip(*fltr)]
             runsCTimesC[selector]['Time'] = ids[j]
-            runsCTimesC.loc[selector, 'Time Offset'] = time
-            runsCTimesC.loc[selector, 'Time Baseline'] = center
+            runsCTimesC.loc[selector, cName+' offset'] = time
+            runsCTimesC.loc[selector, cName] = center
     return runsCTimesC
 
 

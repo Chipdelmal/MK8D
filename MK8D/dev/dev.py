@@ -54,7 +54,8 @@ fig
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=np.mean)
+cFun = np.mean
+runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 
 ###############################################################################
 # Plot
@@ -65,7 +66,7 @@ colorSwatch = mk.generateColorSwatch(
 runsCTimesC = mk.convertTimeFromSec(runsCTimesC, timeTarget='Minutes')
 runsCTimesC['Total'] = [time.strftime("%H:%M:%S", time.gmtime(i)) for i in runsCTimes['Time']]
 fig = px.line(
-    runsCTimesC, x="Track", y="Time Offset", color='ID',
+    runsCTimesC, x="Track", y=cFun.__name__+' offset', color='ID',
     color_discrete_sequence=['rgba' + str(i) for i in colorSwatch],
     hover_data=['Total']
 )
