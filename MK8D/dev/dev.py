@@ -27,8 +27,8 @@ import plotly.graph_objects as go
 # Concatenate and export one dataframe from files list
 ###############################################################################
 FILENAMES = (
-    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss', 
-    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss'
+    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss', 
+    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss'
 )
 OUT = 'MK8D_Full.csv'
 FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
@@ -80,18 +80,18 @@ fig.update_xaxes(range=[-2, 48+1])
 ###############################################################################
 # Date
 ###############################################################################
-FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
-doc = mk.getDictFromXMLFile(FILEPATHS[0])
-history = doc['Run']['AttemptHistory']['Attempt']
-getAttemptsDates = [
-    (i['@id'], datetime.strptime(i['@started'][:-3], '%m/%d/%Y %H:%M')) 
-    for i in history
-]
-strFmt = '%d/%m/%-y'
-ids = {
-    i[0]: '{} ({})'.format(i[1].strftime(strFmt), str(i[0]).zfill(4)) 
-    for i in getAttemptsDates
-}
-ids
+# FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
+# doc = mk.getDictFromXMLFile(FILEPATHS[0])
+# history = doc['Run']['AttemptHistory']['Attempt']
+# getAttemptsDates = [
+#     (i['@id'], datetime.strptime(i['@started'][:-3], '%m/%d/%Y %H:%M')) 
+#     for i in history
+# ]
+# strFmt = '%d/%m/%-y'
+# ids = {
+#     i[0]: '{} ({})'.format(i[1].strftime(strFmt), str(i[0]).zfill(4)) 
+#     for i in getAttemptsDates
+# }
+# ids
 
-getAttemptsDates
+# getAttemptsDates

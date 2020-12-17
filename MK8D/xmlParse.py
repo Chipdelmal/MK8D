@@ -77,16 +77,20 @@ def getRunsDict(runs):
     return tracks
 
 
-def getRIDFromFile(file, zfill=5):
+def getRIDFromFile(file, prependID='', zfill=5):
     doc = getDictFromXMLFile(file)
     history = doc['Run']['AttemptHistory']['Attempt']
     getAttemptsDates = [
         (i['@id'], datetime.strptime(i['@started'][:-3], '%m/%d/%Y %H:%M')) 
         for i in history
     ]
-    strFmt = '%d/%m/%-y'
+    strFmt = '%-y/%m/%d'
     ids = {
-        i[0]: '{} ({})'.format(i[1].strftime(strFmt), str(i[0]).zfill(zfill)) 
+        i[0]: '{} ({}:{})'.format(
+            i[1].strftime(strFmt),
+            prependID, 
+            str(i[0]).zfill(zfill)
+        ) 
         for i in getAttemptsDates
     }
     return ids
@@ -107,13 +111,10 @@ def getTrackList(runs, tracks, rid, name, prependID='', zfill=5):
     trackList = []
     for (key, time) in zip(ids, times):
         if str(key) in rid:
-            entry = (
-                rid[str(key)],
-                name, time, ver, itm, spd, cat
-            )
+            entry = (rid[str(key)], name, time, ver, itm, spd, cat)
         else:
             entry = (
-                prependID+'_'+str(key).zfill(zfill), # rid[str(key)]
+                prependID+':'+str(key).zfill(zfill), # rid[str(key)]
                 name, time, ver, itm, spd, cat
             )
         trackList.append(entry)
@@ -134,22 +135,28 @@ def getRunsDataframe(runs, tracks, rid, prependID='', zfill=5):
 
 def getRunsDataframeFromFile(file, metadata=True, prependID='', zfill=5):
     runs = parseRunsFromFile(file, metadata=metadata)
-    rid = getRIDFromFile(file)
-    # print(rid) Continue from this point!!!!!!
+    rid = getRIDFromFile(file, prependID=prependID, zfill=zfill)
     trks = getRunsDict(runs)
     data = getRunsDataframe(runs, trks, rid, prependID=prependID, zfill=zfill)
     return data
 
 
-def compileRunsDataframeFromFiles(filesList, metadata=True, prependID=True):
+def compileRunsDataframeFromFiles(filesList, metadata=True, prependID=True, zfill=3):
     if prependID:
         dfs = [
-            getRunsDataframeFromFile(file, metadata=metadata, prependID=str(i)) 
+            getRunsDataframeFromFile(
+                file, 
+                metadata=metadata, 
+                prependID=str(i+1).zfill(2),
+                zfill=3
+            ) 
             for (i, file) in enumerate(filesList)
         ]
     else:
         dfs = [
-            getRunsDataframeFromFile(file, metadata=metadata, prependID='') 
+            getRunsDataframeFromFile(
+                file, metadata=metadata, prependID='', zfill=3
+            ) 
             for (i, file) in enumerate(filesList)
         ]
     df = pd.concat(dfs)
