@@ -1,6 +1,7 @@
 
 import pandas as pd
 from xmltodict import parse
+from datetime import datetime
 from collections import OrderedDict
 import MK8D.auxiliary as aux
 
@@ -76,10 +77,25 @@ def getRunsDict(runs):
     return tracks
 
 
+def getRIDFromFile(file, zfill=5):
+    doc = getDictFromXMLFile(file)
+    history = doc['Run']['AttemptHistory']['Attempt']
+    getAttemptsDates = [
+        (i['@id'], datetime.strptime(i['@started'][:-3], '%m/%d/%Y %H:%M')) 
+        for i in history
+    ]
+    strFmt = '%d/%m/%-y'
+    ids = {
+        i[0]: '{} ({})'.format(i[1].strftime(strFmt), str(i[0]).zfill(zfill)) 
+        for i in getAttemptsDates
+    }
+    return ids
+
+
 ###############################################################################
 # Dataframe
 ###############################################################################
-def getTrackList(runs, tracks, name, prependID='', zfill=5):
+def getTrackList(runs, tracks, rid, name, prependID='', zfill=5):
     # Constant data and track info
     (spd, itm, cat, ver) = (
         runs['speed'], runs['items'], runs['category'], runs['version']
@@ -87,30 +103,41 @@ def getTrackList(runs, tracks, name, prependID='', zfill=5):
     track = tracks[name]
     # Run ID with timings
     (ids, times) = (list(track.keys()), list(track.values()))
-    trackList = [
-        (
-            prependID+'_'+str(key).zfill(zfill), 
-            name, time, ver, itm, spd, cat
-        )
-        for (key, time) in zip(ids, times)
-    ] 
+    # If key, add date from dictionary, else just add the normal
+    trackList = []
+    for (key, time) in zip(ids, times):
+        if str(key) in rid:
+            entry = (
+                rid[str(key)],
+                name, time, ver, itm, spd, cat
+            )
+        else:
+            entry = (
+                prependID+'_'+str(key).zfill(zfill), # rid[str(key)]
+                name, time, ver, itm, spd, cat
+            )
+        trackList.append(entry)
     return trackList
 
 
-def getRunsDataframe(runs, tracks, prependID=''):
+def getRunsDataframe(runs, tracks, rid, prependID='', zfill=5):
     tracksNames = list(tracks.keys())
     tracksList = []
     for i in tracksNames:
-        tracksList.extend(getTrackList(runs, tracks, i, prependID=prependID))
+        tracksList.extend(
+            getTrackList(runs, tracks, rid, i, prependID=prependID, zfill=zfill)
+        )
     columns = ['ID', 'Track', 'Time', 'Version', 'Items', 'Speed', 'Category']
     runsDataframe = pd.DataFrame(tracksList, columns=columns)
     return runsDataframe
 
 
-def getRunsDataframeFromFile(file, metadata=True, prependID=''):
+def getRunsDataframeFromFile(file, metadata=True, prependID='', zfill=5):
     runs = parseRunsFromFile(file, metadata=metadata)
+    rid = getRIDFromFile(file)
+    # print(rid) Continue from this point!!!!!!
     trks = getRunsDict(runs)
-    data = getRunsDataframe(runs, trks, prependID=prependID)
+    data = getRunsDataframe(runs, trks, rid, prependID=prependID, zfill=zfill)
     return data
 
 

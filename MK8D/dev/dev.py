@@ -28,7 +28,7 @@ import plotly.graph_objects as go
 ###############################################################################
 FILENAMES = (
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss', 
-    # 'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss'
+    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss'
 )
 OUT = 'MK8D_Full.csv'
 FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
@@ -42,6 +42,8 @@ tracksFltr = mk.TRACKS
 fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
 fshdRuns = mk.getFinishedRuns(data, tracksFltr)
 runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
+
+data['ID'].unique()
 
 ###############################################################################
 # Traces plot
@@ -90,3 +92,6 @@ ids = {
     i[0]: '{} ({})'.format(i[1].strftime(strFmt), str(i[0]).zfill(4)) 
     for i in getAttemptsDates
 }
+ids
+
+getAttemptsDates
