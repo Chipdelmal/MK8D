@@ -57,7 +57,7 @@ fig
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-cFun = np.mean
+cFun = np.max
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 
 ###############################################################################
@@ -74,8 +74,9 @@ fig = px.line(
     hover_data=['Total']
 )
 fig.update_traces(line=dict(width=0.5))
-fig.update_xaxes(range=[-2, 48+1])
-
+fig.update_xaxes(
+    range=[-2, 48+1], tickvals=tracksFltr, tickfont_size=8
+)
 
 ###############################################################################
 # Date
