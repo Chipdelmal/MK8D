@@ -86,7 +86,7 @@ def getRIDFromFile(file, prependID='', zfill=5):
     ]
     strFmt = '%-y/%m/%d'
     ids = {
-        i[0]: '{} ({}-{})'.format(
+        i[0]: '{} ({}:{})'.format(
             i[1].strftime(strFmt),
             prependID, str(i[0]).zfill(zfill)
         ) 
@@ -113,7 +113,7 @@ def getTrackList(runs, tracks, rid, name, prependID='', zfill=5):
             entry = (rid[str(key)], name, time, ver, itm, spd, cat)
         else:
             entry = (
-                prependID+'-'+str(key).zfill(zfill), # rid[str(key)]
+                '({}:{})'.format(prependID, str(key).zfill(zfill)),
                 name, time, ver, itm, spd, cat
             )
         trackList.append(entry)

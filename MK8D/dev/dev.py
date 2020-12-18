@@ -28,9 +28,9 @@ import plotly.graph_objects as go
 ###############################################################################
 FILENAMES = (
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss', 
-    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss'
+    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss', 
 )
-OUT = 'MK8D_Full.csv'
+OUT = 'MK8D.csv'
 FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
 data = mk.compileRunsDataframeFromFiles(FILEPATHS, prependID=True)
 data.to_csv(path.join(PT_FL, OUT), index=False)
@@ -57,14 +57,22 @@ fig
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-cFun = np.max
+cFun = np.mean
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
+
+###############################################################################
+# Fastest/Slowest segments
+###############################################################################
+(fst, slw) = (
+    {track: np.min(data[data['Track'] == track]['Time']) for track in tracksFltr},
+    {track: np.max(data[data['Track'] == track]['Time']) for track in tracksFltr}
+)
 
 ###############################################################################
 # Plot
 ###############################################################################
 colorSwatch = mk.generateColorSwatch(
-    '#233090', len(fshdRunsIDs), alphaOffset=.35, lumaOffset=.2
+    '#233090', len(fshdRunsIDs), alphaOffset=.1, lumaOffset=.05
 )
 runsCTimesC = mk.convertTimeFromSec(runsCTimesC, timeTarget='Minutes')
 runsCTimesC['Total'] = [time.strftime("%H:%M:%S", time.gmtime(i)) for i in runsCTimes['Time']]
@@ -75,24 +83,16 @@ fig = px.line(
 )
 fig.update_traces(line=dict(width=0.5))
 fig.update_xaxes(
-    range=[-2, 48+1], tickvals=tracksFltr, tickfont_size=8
+    range=[-1, 60], tickvals=tracksFltr, tickfont_size=8
 )
-
-###############################################################################
-# Date
-###############################################################################
-# FILEPATHS = [path.join(PT_FL, i) for i in FILENAMES]
-# doc = mk.getDictFromXMLFile(FILEPATHS[0])
-# history = doc['Run']['AttemptHistory']['Attempt']
-# getAttemptsDates = [
-#     (i['@id'], datetime.strptime(i['@started'][:-3], '%m/%d/%Y %H:%M')) 
-#     for i in history
-# ]
-# strFmt = '%d/%m/%-y'
-# ids = {
-#     i[0]: '{} ({})'.format(i[1].strftime(strFmt), str(i[0]).zfill(4)) 
-#     for i in getAttemptsDates
-# }
-# ids
-
-# getAttemptsDates
+finalCoord = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]][cFun.__name__ + ' offset']
+finalTime = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]]['Total']
+fig.add_trace(go.Scatter(
+    x=[1+len(tracksFltr)] * len(fshdRunsIDs),
+    y=finalCoord,
+    mode="text",
+    name="Final Times",
+    text=finalTime,
+    textfont={'size': 8},
+    textposition="middle right"
+))
