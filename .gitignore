@@ -1,6 +1,9 @@
 
-# CSV Output files
+
+
+# Output files
 *.csv
+*.html
 
 # VSCode
 .vscode
