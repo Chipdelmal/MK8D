@@ -69,7 +69,7 @@ runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 )
 
 ###############################################################################
-# Plot
+# Traces Plot
 ###############################################################################
 colorSwatch = mk.generateColorSwatch(
     '#233090', len(fshdRunsIDs), alphaOffset=.1, lumaOffset=.05
@@ -96,3 +96,26 @@ fig.add_trace(go.Scatter(
     textfont={'size': 8},
     textposition="middle right"
 ))
+
+###############################################################################
+# Violin Plot
+###############################################################################
+fig = go.Figure()
+fig.add_trace(
+    go.Violin(
+        x=data['Track'][data['Version']=='Digital'],
+        y=data['Time'][data['Version']=='Digital'],
+        legendgroup='Digital', scalegroup='Digital', name='Digital',
+        side='negative', points=False, line_color='blue'
+    )
+)
+fig.add_trace(
+    go.Violin(
+        x=data['Track'][data['Version']=='Cartridge'],
+        y=data['Time'][data['Version']=='Cartridge'],
+        legendgroup='Cartridge', scalegroup='Cartridge', name='Cartridge',
+        side='positive', points=False, line_color='red'
+    )
+)
+fig.update_traces(meanline_visible=True)
+fig.update_layout(violingap=0, violinmode='overlay')
