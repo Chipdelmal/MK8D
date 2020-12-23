@@ -76,8 +76,9 @@ fig = px.line(
 )
 fig.update_traces(line=dict(width=2))
 fig.update_xaxes(
-    range=[-1, 50], tickvals=tracksFltr, tickfont_size=8
+    range=[-1, 50], tickvals=tracksFltr, tickfont_size=20, tickangle = 90
 )
+fig.update_yaxes(tickfont_size=20, tickangle = 0)
 finalCoord = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]][cFun.__name__ + ' offset']
 finalTime = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]]['Total']
 fig.add_trace(
