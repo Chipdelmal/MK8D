@@ -7,17 +7,51 @@ This package is an improvement upon the [mk8dLivesplit](https://github.com/Chipd
  
 ## Features
 
-* Streamlined conversion from *LSS* to *CSV*
+* Streamlined conversion from *LSS* to *CSV* dataframe
 * Combine different *LSS* files into one dataframe automatically
+* Plot and compare runs 
+  * Full run
+  * Individual Tracks
+
+## Basic Usage
+
+Install the package with:
+
+```bash
+pip install MK8D
+```
+
+To convert an LSS file into a CSV dataframe, run:
+
+```bash
+MK8D_lss2csv INPUT_FOLDER OUTPUT_FOLDER OUTPUT_FILENAME
+```
+
+where **INPUT_FOLDER** is the path to the directory where the *LSS* files are stored, **OUTPUT_FOLDER** is the location in which we want our files to be exported to, and **OUTPUT_FILENAME** is the name of the *CSV* file to be exported.
+
+For example, if run from the repository directory:
+
+```bash
+MK8D_lss2csv ./MK8D/dev/data ./dev/data MK8D.csv
+```
+
+would take every *LSS* file found in the `./MK8D/dev/data` and compile a dataframe to a *CSV* file, which would be exported to the same folder.
 
 ## Dependencies
 
 * Pandas
 * Numpy
 * Plotly
+* Plotly Express
 * Matplotlib
+* Colour
+* XMLToDict
 
 ## To do
 
 - [x] Fix bug with tracks sorting
-- [ ] Add attempt date support
+- [x] Add attempt date support
+- [x] Create command line tool
+- [ ] Auto-export plots
+- [ ] Highlight PB
+- [ ] Add stats to plots

@@ -45,6 +45,6 @@ pypi: clean clean_sdist
 	set -x \
 	&& $(python) setup.py sdist bdist_wheel \
 	&& twine check dist/* \
-	&& twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+	&& twine upload dist/*
 clean_pypi:
 	- rm -rf build/

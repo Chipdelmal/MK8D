@@ -25,7 +25,7 @@ setuptools.setup(
     install_requires=REQUIRED_PACKAGES,                         # all requirements used by this package
     version=this_version,                                       # project version, read from version.py
     author="chipdelmal",                                        # Author, shown on PyPI
-    scripts=['./bin/MK8D_lss_parse'],                           # command line scripts installed
+    scripts=['./bin/MK8D_lss2csv'],                           # command line scripts installed
     author_email="chipdelmal@gmail.com",                        # Author email
     description="Mario Kart 8 Deluxe livesplit analyzer",       # Short description of project
     long_description=long_description,                          # Long description, shown on PyPI
