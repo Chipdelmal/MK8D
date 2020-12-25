@@ -32,7 +32,8 @@ where **INPUT_FOLDER** is the path to the directory where the *LSS* files are st
 For example, if run from the repository directory:
 
 ```bash
-MK8D_lss2csv ./MK8D/dev/data ./dev/data MK8D.csv
+MK8D_trk2csv ./MK8D/dev/data ./MK8D/dev/data MK8D_trks.csv
+MK8D_run2csv ./MK8D/dev/data ./MK8D/dev/data MK8D_runs.csv
 ```
 
 would take every *LSS* file found in the `./MK8D/dev/data` and compile a dataframe to a *CSV* file, which would be exported to the same folder.

@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import MK8D.constants as cnst
+pd.options.mode.chained_assignment = None
 
 
 def getFinishedRunsID(data, tracks=cnst.TRACKS):
