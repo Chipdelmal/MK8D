@@ -64,13 +64,25 @@ runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 ###############################################################################
 # Traces Plot
 ###############################################################################
+# Style calculations ----------------------------------------------------------
 colorSwatch = mk.generateColorSwatch(
     '#233090', len(fshdRunsIDs), alphaOffset=(.1, .8), lumaOffset=(.05, 1)
 )
+highlight = list(Color('#ff006e').get_rgb())
+highlight.append(.5)
+# Timing ----------------------------------------------------------------------
 runsCTimesC = mk.convertTimeFromSec(runsCTimesC, timeTarget='Minutes')
 runsCTimesC['Total'] = [time.strftime("%H:%M:%S", time.gmtime(i)) for i in runsCTimes['Time']]
+# Calculate fastest run -------------------------------------------------------
+endTimes = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]]
+fastest = min(endTimes['Time'])
+fid = endTimes[endTimes['Time'] == fastest]['ID'].values[0]
+fPos = fshdRunsIDs.index(fid)
+colorSwatch[fPos] = tuple(highlight)
+# Convert to human-readable times ---------------------------------------------
 fig = px.line(
-    runsCTimesC, x="Track", y=cFun.__name__+' offset', color='ID',
+    runsCTimesC, 
+    x="Track", y=cFun.__name__+' offset', color='ID',
     color_discrete_sequence=['rgba' + str(i) for i in colorSwatch],
     hover_data=['Total']
 )
@@ -81,18 +93,24 @@ fig.update_xaxes(
 fig.update_yaxes(tickfont_size=20, tickangle = 0)
 finalCoord = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]][cFun.__name__ + ' offset']
 finalTime = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]]['Total']
-fig.add_trace(
-        go.Scatter(
-        x=[len(tracksFltr)+1] * len(fshdRunsIDs),
-        y=finalCoord,
-        mode="text", showlegend=False,
-        name="Final Times",
-        text=finalTime,
-        textfont={'size': 12},
-        textposition="middle right"
+for i in range(len(finalCoord)):
+    fig.add_trace(
+            go.Scatter(
+            x=[len(tracksFltr)+1] * len(fshdRunsIDs),
+            y=[list(finalCoord)[i]],
+            mode="text", showlegend=False,
+            name="Final Times",
+            text=list(finalTime)[i],
+            textfont={'size': 12, 'color': ['rgba' + str(i) for i in colorSwatch][i]},
+            textposition="middle right"
+        )
     )
-)
+fig.show()
 fig.write_html(path.join(PT_PL, 'TracesCentered.html'))
+
+len(finalCoord)
+
+
 
 ###############################################################################
 # Violin Plot (Full)

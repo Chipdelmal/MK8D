@@ -55,3 +55,4 @@ would take every *LSS* file found in the `./MK8D/dev/data` and compile a datafra
 - [ ] Auto-export plots
 - [ ] Highlight PB
 - [ ] Add stats to plots
+- [ ] Add "start" state to traces plot
