@@ -53,6 +53,9 @@ would take every *LSS* file found in the `./MK8D/dev/data` and compile a datafra
 - [x] Add attempt date support
 - [x] Create command line tool
 - [ ] Auto-export plots
-- [ ] Highlight PB
+- [x] Highlight PB
 - [ ] Add stats to plots
 - [ ] Add "start" state to traces plot
+- [ ] Create progress plot
+- [ ] Make timings readable
+- [ ] Create non-interactive versions of the plots

@@ -9,7 +9,7 @@ def generateColorSwatch(
     for i in range(levels):
         c = Color(baseColor)
         baseLum = lumaOffset[1] - c.get_luminance()
-        lumLevel = (baseLum - ((lumaOffset[1]-baseLum)/levels * i))
+        lumLevel = (baseLum - ((lumaOffset[1]-baseLum)/levels * i)) + (lumaOffset[0])
         c.set_luminance(lumLevel)
         rgb = c.get_rgb()
         alphaLevel = alphaOffset[0] + ((alphaOffset[1]-alphaOffset[0]) * i/levels)

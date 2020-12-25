@@ -17,7 +17,7 @@ import plotly.graph_objects as go
 ###############################################################################
 (PT_FL, PT_PL) = ('./data/', './plots')
 FILENAMES = (
-    # 'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss', 
+    'Mario Kart 8 Deluxe - 48 Tracks (200cc, Cartridge, No Items).lss', 
     'Mario Kart 8 Deluxe - 48 Tracks (200cc, Digital, No Items).lss', 
 )
 OUT = 'MK8D.csv'
@@ -32,6 +32,8 @@ tracksFltr = mk.TRACKS
 fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
 fshdRuns = mk.getFinishedRuns(data, tracksFltr)
 runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
+
+
 
 ###############################################################################
 # Traces plot
@@ -49,7 +51,7 @@ fig.write_html(path.join(PT_PL, 'Traces.html'))
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-cFun = np.mean
+cFun = np.median
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 
 ###############################################################################
@@ -66,10 +68,10 @@ runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 ###############################################################################
 # Style calculations ----------------------------------------------------------
 colorSwatch = mk.generateColorSwatch(
-    '#233090', len(fshdRunsIDs), alphaOffset=(.1, .8), lumaOffset=(.05, 1)
+    '#233090', len(fshdRunsIDs), alphaOffset=(.1, .8), lumaOffset=(.25, 1)
 )
-highlight = list(Color('#ff006e').get_rgb())
-highlight.append(.5)
+highlight = list(Color('#EE006E').get_rgb())
+highlight.append(.9)
 # Timing ----------------------------------------------------------------------
 runsCTimesC = mk.convertTimeFromSec(runsCTimesC, timeTarget='Minutes')
 runsCTimesC['Total'] = [time.strftime("%H:%M:%S", time.gmtime(i)) for i in runsCTimes['Time']]
@@ -88,27 +90,26 @@ fig = px.line(
 )
 fig.update_traces(line=dict(width=2))
 fig.update_xaxes(
-    range=[-1, 50], tickvals=tracksFltr, tickfont_size=20, tickangle = 90
+    range=[0, 51], tickvals=tracksFltr, tickfont_size=20, tickangle = 90
 )
 fig.update_yaxes(tickfont_size=20, tickangle = 0)
 finalCoord = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]][cFun.__name__ + ' offset']
 finalTime = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]]['Total']
 for i in range(len(finalCoord)):
-    fig.add_trace(
-            go.Scatter(
-            x=[len(tracksFltr)+1] * len(fshdRunsIDs),
-            y=[list(finalCoord)[i]],
-            mode="text", showlegend=False,
-            name="Final Times",
-            text=list(finalTime)[i],
-            textfont={'size': 12, 'color': ['rgba' + str(i) for i in colorSwatch][i]},
-            textposition="middle right"
+    if i == fPos:
+        fig.add_trace(
+                go.Scatter(
+                x=[len(tracksFltr)] * len(fshdRunsIDs),
+                y=[list(finalCoord)[i]],
+                mode="text", showlegend=False,
+                name="Final Times",
+                text=list(finalTime)[i],
+                textfont={'size': 14, 'color': ['rgba' + str(i) for i in colorSwatch][i]},
+                textposition="middle right"
+            )
         )
-    )
 fig.show()
 fig.write_html(path.join(PT_PL, 'TracesCentered.html'))
-
-len(finalCoord)
 
 
 
