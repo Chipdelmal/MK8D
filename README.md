@@ -33,7 +33,7 @@ For example, if run from the repository directory:
 
 ```bash
 MK8D_trk2csv ./MK8D/dev/data ./MK8D/dev/data MK8D_trks.csv
-MK8D_run2csv ./MK8D/dev/data ./MK8D/dev/data MK8D_runs.csv
+K8D_run2csv ./MK8D/dev/data/MK8D_trks.csv ./MK8D/dev/data MK8D_runs.csv max
 ```
 
 would take every *LSS* file found in the `./MK8D/dev/data` and compile a dataframe to a *CSV* file, which would be exported to the same folder.

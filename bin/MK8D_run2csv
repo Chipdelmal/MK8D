@@ -5,19 +5,31 @@ from glob import glob
 from os import path
 import MK8D as mk
 import numpy as np
+import pandas as pd
 
 
-(PATH_I, PATH_O, FILE_O) = (sys.argv[1], sys.argv[2], sys.argv[3])
-files = glob(path.join(PATH_I, '*.lss'))
+(PATH_I, PATH_O, FILE_O, CENTER) = (
+    sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+)
+tracksFltr = mk.TRACKS                  # Change for other track orders
+# Get files from paths --------------------------------------------------------
+files = glob(path.join(PATH_I))
 print('Parsing {} files to CSV dataframe.'.format(len(files)))
-data = mk.compileRunsDataframeFromFiles(files, prependID=True)
-
-tracksFltr = mk.TRACKS
+# data = mk.compileRunsDataframeFromFiles(files, prependID=True)
+data = pd.read_csv(PATH_I)
+# Filter finished runs and convert to cumulative time -------------------------
 fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
 fshdRuns = mk.getFinishedRuns(data, tracksFltr)
 runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
-
-cFun = np.median
+# Center around metric --------------------------------------------------------
+if CENTER == 'mean':
+    cFun = np.mean
+elif CENTER == 'median':
+    cFun = np.median
+elif CENTER == 'min':
+    cFun = np.min
+elif CENTER == 'max':
+    cFun = np.max
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
-
+# Export to file --------------------------------------------------------------
 runsCTimesC.to_csv(path.join(PATH_O, FILE_O), index=False)

@@ -1,5 +1,3 @@
-
-  
 import time 
 from datetime import datetime
 from datetime import timedelta
@@ -33,8 +31,6 @@ fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
 fshdRuns = mk.getFinishedRuns(data, tracksFltr)
 runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
 
-
-
 ###############################################################################
 # Traces plot
 ###############################################################################
@@ -51,7 +47,7 @@ fig.write_html(path.join(PT_PL, 'Traces.html'))
 ###############################################################################
 # Center CTimes around value
 ###############################################################################
-cFun = np.median
+cFun = np.min
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 
 ###############################################################################
@@ -154,3 +150,14 @@ fig.add_trace(
 fig.update_traces(meanline_visible=True)
 fig.update_layout(violingap=0, violinmode='overlay')
 fig.write_html(path.join(PT_PL, 'ViolinsDual.html'))
+
+
+###############################################################################
+# Final time progress
+###############################################################################
+finalEntries = runsCTimesC[runsCTimesC['Track'] == tracksFltr[-1]].copy()
+dates = [datetime.strptime(i.split(' ')[0], '%y/%m/%d') for i in list(finalEntries['ID'])]
+finalEntries['Date'] = dates
+fig = px.line(finalEntries, x='Date', y='Time', hover_data=['Total'])
+fig.show()
+fig.write_html(path.join(PT_PL, 'Progress.html'))

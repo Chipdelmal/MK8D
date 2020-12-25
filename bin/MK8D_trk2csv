@@ -7,7 +7,10 @@ import MK8D as mk
 
 
 (PATH_I, PATH_O, FILE_O) = (sys.argv[1], sys.argv[2], sys.argv[3])
+# Get files from paths --------------------------------------------------------
 files = glob(path.join(PATH_I, '*.lss'))
 print('Parsing {} files to CSV dataframe.'.format(len(files)))
+# Compile into dataframe ------------------------------------------------------
 data = mk.compileRunsDataframeFromFiles(files, prependID=True)
+# Export to file --------------------------------------------------------------
 data.to_csv(path.join(PATH_O, FILE_O), index=False)
