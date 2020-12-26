@@ -82,7 +82,7 @@ fig = px.line(
     runsCTimesC, 
     x="Track", y=cFun.__name__+' offset', color='ID',
     color_discrete_sequence=['rgba' + str(i) for i in colorSwatch],
-    hover_data=['Total']
+    hover_data=['Total'], line_shape='linear'
 )
 fig.update_traces(line=dict(width=2))
 fig.update_xaxes(

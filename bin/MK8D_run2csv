@@ -1,27 +1,34 @@
 #!/usr/bin/env python
 
 import sys
+import time
 from glob import glob
 from os import path
-import MK8D as mk
 import numpy as np
 import pandas as pd
+import MK8D as mk
 
 
 (PATH_I, PATH_O, FILE_O, CENTER) = (
     sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 )
-tracksFltr = mk.TRACKS                  # Change for other track orders
-# Get files from paths --------------------------------------------------------
+TRACKS = mk.TRACKS     # Change for other track orders       
+###############################################################################
+# Get files from paths
+###############################################################################
 files = glob(path.join(PATH_I))
 print('Parsing {} files to CSV dataframe.'.format(len(files)))
 # data = mk.compileRunsDataframeFromFiles(files, prependID=True)
 data = pd.read_csv(PATH_I)
-# Filter finished runs and convert to cumulative time -------------------------
-fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, tracksFltr)))
-fshdRuns = mk.getFinishedRuns(data, tracksFltr)
-runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, tracksFltr)
-# Center around metric --------------------------------------------------------
+###############################################################################
+# Filter finished runs and convert to cumulative time
+###############################################################################
+fshdRuns = mk.getFinishedRuns(data, TRACKS)
+fshdRunsIDs = sorted(list(mk.getFinishedRunsID(data, TRACKS)))
+runsCTimes = mk.convertFinishedRunsToCTimes(fshdRuns, fshdRunsIDs, TRACKS)
+###############################################################################
+# Center around metric
+###############################################################################
 if CENTER == 'mean':
     cFun = np.mean
 elif CENTER == 'median':
@@ -31,5 +38,10 @@ elif CENTER == 'min':
 elif CENTER == 'max':
     cFun = np.max
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
-# Export to file --------------------------------------------------------------
+runsCTimesC['Split'] = [
+    time.strftime("%H:%M:%S", time.gmtime(i)) for i in runsCTimesC['Time']
+]
+###############################################################################
+# Export to file
+###############################################################################
 runsCTimesC.to_csv(path.join(PATH_O, FILE_O), index=False)
