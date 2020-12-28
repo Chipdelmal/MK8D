@@ -34,3 +34,11 @@ CUPS_ORDER = (
     'Mushroom', 'Flower', 'Star', 'Special', 'Shell', 'Banana', 
     'Leaf', 'Lightning', 'Egg', 'Triforce', 'Crossing', 'Bell'
 )
+
+CATEGORIES = {
+    'Nitro': TRACKS[:-32],
+    'Retro': TRACKS[-32:-16],
+    'Bonus': TRACKS[-16:],
+    '32': TRACKS[:32],
+    '48': TRACKS
+}
