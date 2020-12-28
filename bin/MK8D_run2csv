@@ -40,7 +40,7 @@ elif CENTER == 'max':
     cFun = np.max
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 runsCTimesC['Split'] = [
-    str(timedelta(seconds=i)).split('.') for i in runsCTimesC['Time']
+    str(timedelta(seconds=i)) for i in runsCTimesC['Time']
 ]
 ###############################################################################
 # Export to file
