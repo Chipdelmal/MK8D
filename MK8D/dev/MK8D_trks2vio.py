@@ -48,10 +48,12 @@ else:
             line={'width': .75}
         )
     )
+# Update axes -----------------------------------------------------------------
 fig.update_traces(meanline_visible=True)
 fig.update_layout(violingap=0, violinmode='overlay')
 fig.update_xaxes(
-    range=[-1, len(tracks)], tickvals=tracksFltr, tickfont_size=10, tickangle = 90
+    range=[-1, len(tracks)], tickvals=tracksFltr, 
+    tickfont_size=10, tickangle=90
 )
 fig.show()
 fig.write_html(PT_PL)

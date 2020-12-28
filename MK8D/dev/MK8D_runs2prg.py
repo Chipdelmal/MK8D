@@ -27,7 +27,15 @@ finalEntries['Date'] = dates
 fig = px.line(
     finalEntries, 
     x='Date', y='Time', 
-    hover_data=['Split'], line_shape='linear'
+    hover_data=['Split'], line_shape='linear',
+    color_discrete_sequence=['#FF006E']
+)
+fig.data[0].update(mode='markers+lines')
+fig.update_layout(
+    # title='Runs Progress',
+    font=dict(size=20),
+    xaxis=dict(title_text='Date', titlefont=dict(size=30)),
+    yaxis=dict(title_text='Time (minutes)', titlefont=dict(size=30))
 )
 fig.show()
 ###############################################################################

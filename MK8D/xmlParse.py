@@ -140,7 +140,9 @@ def getRunsDataframeFromFile(file, metadata=True, prependID='', zfill=5):
     return data
 
 
-def compileRunsDataframeFromFiles(filesList, metadata=True, prependID=True, zfill=3):
+def compileRunsDataframeFromFiles(
+    filesList, metadata=True, prependID=True, zfill=3
+):
     if prependID:
         dfs = [
             getRunsDataframeFromFile(

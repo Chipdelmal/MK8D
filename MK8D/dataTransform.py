@@ -80,7 +80,7 @@ def centerRunsCTimes(runsCTimes, centerFunction=np.mean):
             fltr = (runsCTimesC['Track'] == track, runsCTimes['ID'] == ids[j])
             selector = [all(i) for i in zip(*fltr)]
             runsCTimesC[selector]['Time'] = ids[j]
-            runsCTimesC.loc[selector, cName+' offset'] = time
+            runsCTimesC.loc[selector, cName +' offset'] = time
             runsCTimesC.loc[selector, cName] = center
     return runsCTimesC
 

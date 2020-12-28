@@ -6,6 +6,7 @@ from glob import glob
 from os import path
 import numpy as np
 import pandas as pd
+from datetime import timedelta
 import MK8D as mk
 
 
@@ -39,7 +40,7 @@ elif CENTER == 'max':
     cFun = np.max
 runsCTimesC = mk.centerRunsCTimes(runsCTimes, centerFunction=cFun)
 runsCTimesC['Split'] = [
-    time.strftime("%H:%M:%S", time.gmtime(i)) for i in runsCTimesC['Time']
+    str(timedelta(seconds=i)).split('.') for i in runsCTimesC['Time']
 ]
 ###############################################################################
 # Export to file
