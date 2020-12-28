@@ -47,18 +47,18 @@ if centered:
     finalCoord = runs[runs['Track'] == TRACKS[-1]]['Center offset']
     finalTime = runs[runs['Track'] == TRACKS[-1]]['Split']
     for i in range(len(finalCoord)):
-        # if i == fPos:
-        fig.add_trace(
-                go.Scatter(
-                x=[len(TRACKS)] * len(fshdRunsIDs),
-                y=[list(finalCoord)[i]],
-                mode="text", showlegend=False,
-                name="Final Times",
-                text=[list(finalTime)[i][:-4]],
-                textfont={'size': 12, 'color': ['rgba' + str(i) for i in colorSwatch][i]},
-                textposition="middle right"
+        if i == fPos:
+            fig.add_trace(
+                    go.Scatter(
+                    x=[len(TRACKS)] * len(fshdRunsIDs),
+                    y=[list(finalCoord)[i]],
+                    mode="text", showlegend=False,
+                    name="Final Times",
+                    text=[list(finalTime)[i][:-4]],
+                    textfont={'size': 12, 'color': ['rgba' + str(i) for i in colorSwatch][i]},
+                    textposition="middle right"
+                )
             )
-        )
 else:
     fig = px.line(
         mk.convertTimeFromSec(runs, timeTarget='Hours'),
@@ -67,17 +67,26 @@ else:
         hover_data=['Split']
     )
 # Update axes -----------------------------------------------------------------
+vLines = [
+    dict(
+        type= 'line',
+        yref= 'paper', y0= 0, y1= 1,
+        xref= 'x', x0=i-.5, x1=i-.5,
+        line=dict(color='#233090', width=.75, dash='dot')
+    ) for i in range(0, len(TRACKS)+1, 4)
+]
 fig.update_layout(violingap=0, violinmode='overlay')
+fig.update_layout(shapes=vLines)
 fig.update_xaxes(
     range=[-1, len(TRACKS)+3], tickvals=TRACKS, 
     tickfont_size=17, tickangle=90
 )
-fig.update_yaxes(tickfont_size=20, tickangle = 0)
+fig.update_yaxes(tickfont_size=20, tickangle=0)
 fig.update_layout(
     # title='Runs Progress',
     font=dict(size=20),
     xaxis=dict(title_text='Track', titlefont=dict(size=30)),
-    yaxis=dict(title_text='Time (seconds)', titlefont=dict(size=30)),
+    yaxis=dict(title_text='Offset (seconds)', titlefont=dict(size=30)),
     legend=dict(font=dict(size=12))
 )
 fig.show()
