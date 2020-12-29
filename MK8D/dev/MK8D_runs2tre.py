@@ -2,20 +2,40 @@
 
 import time 
 from datetime import datetime
+from datetime import timedelta
 import pandas as pd
+import numpy as np
 import plotly.express as px
 from colour import Color
 import plotly.graph_objects as go
 import MK8D as mk
 
 
-(PT_DT, PT_PL) = ('./data/MK8D_runs.csv', './plots/Traces.html')
+(PT_DT, PT_DV, PT_PL) = (
+    './data/MK8D_runs.csv',
+    './data/MK8D_trks.csv',
+    './plots/Traces.html'
+)
 centered = True
 TRACKS = mk.TRACKS
 ###############################################################################
 # Read data
 ###############################################################################
 runs = pd.read_csv(PT_DT)
+trks = pd.read_csv(PT_DV)
+###############################################################################
+# Fastest/Slowest segments
+###############################################################################
+ops = (np.min, np.median, np.mean, np.max)
+ts = [
+    [op(trks[trks['Track'] == track]['Time']) for track in TRACKS] 
+    for op in ops
+]
+stats = [np.sum(i) for i in ts]
+statsStr = [
+    '[{}{}]'.format(i[0].ljust(1), str(timedelta(seconds=i[1]))[:-4].ljust(1))
+    for i in zip(('min ', 'μ ', 'M ', 'max '), stats)
+]
 ###############################################################################
 # Traces plot
 ###############################################################################
@@ -42,7 +62,7 @@ if centered:
     )
     fig.update_traces(line=dict(width=2))
     fig.update_xaxes(
-        range=[0, 51], tickvals=TRACKS, tickfont_size=20, tickangle = 90
+        range=[0, 5], tickvals=TRACKS, tickfont_size=20, tickangle = 90
     )
     finalCoord = runs[runs['Track'] == TRACKS[-1]]['Center offset']
     finalTime = runs[runs['Track'] == TRACKS[-1]]['Split']
@@ -55,7 +75,10 @@ if centered:
                     mode="text", showlegend=False,
                     name="Final Times",
                     text=[list(finalTime)[i][:-4]],
-                    textfont={'size': 12, 'color': ['rgba' + str(i) for i in colorSwatch][i]},
+                    textfont={
+                        'size': 15, 
+                        'color': ['rgba' + str(i) for i in colorSwatch][i]
+                    },
                     textposition="middle right"
                 )
             )
@@ -78,13 +101,13 @@ vLines = [
 fig.update_layout(violingap=0, violinmode='overlay')
 fig.update_layout(shapes=vLines)
 fig.update_xaxes(
-    range=[-1, len(TRACKS)+3], tickvals=TRACKS, 
+    range=[-1, len(TRACKS)+5], tickvals=TRACKS,
     tickfont_size=17, tickangle=90
 )
 fig.update_yaxes(tickfont_size=20, tickangle=0)
 fig.update_layout(
-    # title='Runs Progress',
-    font=dict(size=20),
+    title='Sum of Segments: '+' '.join(statsStr),
+    font=dict(size=10),
     xaxis=dict(title_text='Track', titlefont=dict(size=30)),
     yaxis=dict(title_text='Offset (seconds)', titlefont=dict(size=30)),
     legend=dict(font=dict(size=12))
