@@ -18,7 +18,7 @@ TRACKS = mk.TRACKS     # Change for other track orders
 # Get files from paths
 ###############################################################################
 files = glob(path.join(PATH_I))
-print('Parsing {} files to CSV dataframe.'.format(len(files)))
+print('Parsing {} files to Tracks CSV dataframe.'.format(len(files)))
 # data = mk.compileRunsDataframeFromFiles(files, prependID=True)
 data = pd.read_csv(PATH_I)
 ###############################################################################

@@ -11,7 +11,7 @@ import MK8D as mk
 # Get files from paths
 ###############################################################################
 files = glob(path.join(PATH_I, '*.lss'))
-print('Parsing {} files to CSV dataframe.'.format(len(files)))
+print('Parsing {} files to Runs CSV dataframe.'.format(len(files)))
 ###############################################################################
 # Compile into dataframe
 ###############################################################################
