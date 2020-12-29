@@ -98,8 +98,8 @@ vLines = [
         line=dict(color='#233090', width=.75, dash='dot')
     ) for i in range(0, len(TRACKS)+1, 4)
 ]
-fig.update_layout(violingap=0, violinmode='overlay')
 fig.update_layout(shapes=vLines)
+fig.update_layout(violingap=0, violinmode='overlay')
 fig.update_xaxes(
     range=[-1, len(TRACKS)+5], tickvals=TRACKS,
     tickfont_size=17, tickangle=90
