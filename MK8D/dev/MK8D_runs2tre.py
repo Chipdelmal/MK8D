@@ -71,7 +71,7 @@ vLines = [
     dict(
         type= 'line',
         yref= 'paper', y0= 0, y1= 1,
-        xref= 'x', x0=i-.5, x1=i-.5,
+        xref= 'x', x0=i+.5, x1=i+.5,
         line=dict(color='#233090', width=.75, dash='dot')
     ) for i in range(0, len(TRACKS)+1, 4)
 ]

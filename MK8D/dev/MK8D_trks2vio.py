@@ -12,6 +12,7 @@ tracksFltr = mk.TRACKS
 mixed = True
 
 data = pd.read_csv(PT_DT)
+data = data[data['Track'] != 'Start']
 versions = list(data['Version'].unique())
 tracks = list(data['Track'].unique())
 ###############################################################################

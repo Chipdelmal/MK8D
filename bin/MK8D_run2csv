@@ -13,7 +13,13 @@ import MK8D as mk
 (PATH_I, PATH_O, FILE_O, CENTER) = (
     sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 )
-TRACKS = mk.TRACKS     # Change for other track orders       
+# (PATH_I, PATH_O, FILE_O, CENTER) = (
+#     '/home/chipdelmal/Documents/GitHub/MK8D/MK8D/dev/data/MK8D_trks.csv', 
+#     '/home/chipdelmal/Documents/GitHub/MK8D/MK8D/dev/data', 
+#     'MK8D_runs.csv', 'median'
+# )
+TRACKS = ['Start']
+TRACKS.extend(mk.TRACKS)
 ###############################################################################
 # Get files from paths
 ###############################################################################

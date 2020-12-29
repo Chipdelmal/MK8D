@@ -3,10 +3,17 @@
 import sys
 from glob import glob
 from os import path
+import pandas as pd
 import MK8D as mk
 
 
 (PATH_I, PATH_O, FILE_O) = (sys.argv[1], sys.argv[2], sys.argv[3])
+# (PATH_I, PATH_O, FILE_O) = (
+#     '/home/chipdelmal/Documents/GitHub/MK8D/MK8D/dev/data/', 
+#     '/home/chipdelmal/Documents/GitHub/MK8D/MK8D/dev/data/', 
+#     'MK8D_trks.csv'
+# )
+pad = True
 ###############################################################################
 # Get files from paths
 ###############################################################################
@@ -16,6 +23,21 @@ print('Parsing {} files to Runs CSV dataframe.'.format(len(files)))
 # Compile into dataframe
 ###############################################################################
 data = mk.compileRunsDataframeFromFiles(files, prependID=True)
+###############################################################################
+# Pad with start
+###############################################################################
+if pad:
+    ids = list(data['ID'].unique())
+    padding = pd.DataFrame({
+        'ID': ids,
+        'Track': ['Start'] * len(ids),
+        'Time': [0] * len(ids),
+        'Version': [list(data[data['ID']==id]['Version'])[0] for id in ids],
+        'Items': [list(data[data['ID']==id]['Items'])[0] for id in ids],
+        'Speed': [list(data[data['ID']==id]['Speed'])[0] for id in ids],
+        'Category': [list(data[data['ID']==id]['Category'])[0] for id in ids]
+    })
+    data = pd.concat([padding, data])
 ###############################################################################
 # Export to file
 ###############################################################################
