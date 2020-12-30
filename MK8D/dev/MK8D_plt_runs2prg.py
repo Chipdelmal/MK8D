@@ -37,6 +37,16 @@ fig.update_layout(
     xaxis=dict(title_text='Date', titlefont=dict(size=30)),
     yaxis=dict(title_text='Time (minutes)', titlefont=dict(size=30))
 )
+# Add annotation --------------------------------------------------------------
+# for (i, time) in enumerate(list(finalEntries['Split'])):
+#     fig.add_annotation(
+#         x=dates[i], y=.01,
+#         text=time[:-4],
+#         font={'size': 10, 'color': '#233090', 'family': 'monospace'},
+#         showarrow=False,
+#         yref="paper",
+#         textangle=90
+#     )
 fig.show()
 ###############################################################################
 # Export
