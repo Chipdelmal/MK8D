@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CNTR="mean"
+CNTR="max"
 FNAME="MK8D"
 PT_IN="/home/chipdelmal/Documents/GitHub/MK8D/MK8D/dev/data"
 PT_OT="/home/chipdelmal/Documents/GitHub/MK8D/MK8D/dev/data"

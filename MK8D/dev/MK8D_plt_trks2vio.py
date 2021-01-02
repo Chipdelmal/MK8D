@@ -10,7 +10,7 @@ import MK8D as mk
 
 (PT_DT, PT_PL) = ('./data/MK8D_trks.csv', './plots/Violins.html')
 TRACKS = mk.TRACKS
-mixed = True
+mixed = False
 
 data = pd.read_csv(PT_DT)
 data = data[data['Track'] != 'Start']

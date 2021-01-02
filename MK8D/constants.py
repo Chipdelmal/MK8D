@@ -35,10 +35,11 @@ CUPS_ORDER = (
     'Leaf', 'Lightning', 'Egg', 'Triforce', 'Crossing', 'Bell'
 )
 
+pad = ['Start']
 CATEGORIES = {
-    'Nitro': TRACKS[:-32],
-    'Retro': TRACKS[-32:-16],
-    'Bonus': TRACKS[-16:],
-    '32': TRACKS[:32],
-    '48': TRACKS
+    'Nitro': pad + list(TRACKS[:-32]),
+    'Retro': ['Rainbow Road'] + list(TRACKS[-32:-16]),
+    'Bonus': ['N64 Rainbow Road'] + list(TRACKS[-16:]),
+    '32': pad + list(TRACKS[:32]),
+    '48': pad + list(TRACKS)
 }

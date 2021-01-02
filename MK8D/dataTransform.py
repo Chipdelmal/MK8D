@@ -95,3 +95,22 @@ def convertTimeFromSec(data, timeTarget='Hours'):
         return 'Available options are: Hours and Minutes'
     dataTemp['Time'] = dataTemp['Time'].apply(lambda x: timeFun(x))
     return dataTemp
+
+
+def timeBetweenTracks(data, rid, start, end):
+    runp = data[data['ID']==rid]
+    (stpt, strt) = [
+        float(runp[runp['Track'] == i]['Time']) for i in (end, start)
+    ]
+    interval = stpt - strt
+    return interval
+
+
+def runsCategoryTimes(data, start, end):
+    ids = list(data['ID'].unique())
+    # Populate times list ---------------------------------------------------------
+    times = []
+    for rid in ids:
+        interval = timeBetweenTracks(data, rid, start, end)
+        times.append(interval)
+    return times
