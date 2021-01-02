@@ -11,7 +11,7 @@ import MK8D as mk
 
 # https://plotly.com/python/table/
 
-(PT_DT, PT_PL) = ('./data/MK8D_runs.csv', './plots/Traces.html')
+(PT_DT, PT_PL) = ('./data/MK8D_runs.csv', './plots/Table.html')
 CATS = ('Nitro', 'Retro', 'Bonus', '32', '48')
 ###############################################################################
 # Read data
@@ -29,4 +29,19 @@ for cat in CATS:
 # Human-Readable
 ###############################################################################
 for cat in CATS:
-    dfH[cat] = dfT[cat].apply(lambda x: (str(timedelta(seconds=x))[:-4]))
+    dfH[cat] = dfT[cat].apply(lambda x: (str(timedelta(seconds=x))[:mk.TPREC]))
+###############################################################################
+# Human-Readable
+###############################################################################
+fig = go.Figure(data=[go.Table(
+    header=dict(
+        values=list(dfH.columns),
+        align='center', font=dict(color='black', size=12)
+    ),
+    cells=dict(
+        values=[dfH[cat] for cat in (['ID'] + list(CATS))],
+        align='center', font=dict(color='black', size=11)
+    ))
+])
+fig.show()
+fig.write_html(PT_PL)

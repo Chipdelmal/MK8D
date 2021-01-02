@@ -1,4 +1,5 @@
 
+import MK8D.constants as cnst
 from datetime import datetime
 from datetime import timedelta
 
@@ -38,11 +39,11 @@ def tStrToSecs(tStr, refTime=REFT):
     return tDiff
 
 
-def secToMin(sec, prec=-4):
+def secToMin(sec, prec=cnst.TPREC):
     return timedelta(seconds=sec)
 
 
-def minsToHr(mins, prec=-4):
+def minsToHr(mins, prec=cnst.TPREC):
     return timedelta(minutes=mins)
 
 

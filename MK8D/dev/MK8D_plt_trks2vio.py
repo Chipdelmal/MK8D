@@ -10,7 +10,7 @@ import MK8D as mk
 
 (PT_DT, PT_PL) = ('./data/MK8D_trks.csv', './plots/Violins.html')
 TRACKS = mk.TRACKS
-mixed = False
+mixed = True
 
 data = pd.read_csv(PT_DT)
 data = data[data['Track'] != 'Start']
@@ -21,7 +21,7 @@ tracks = list(data['Track'].unique())
 ###############################################################################
 bestTimes = [min(data[data['Track'] == track]['Time']) for track in TRACKS]
 worstTimes = [max(data[data['Track'] == track]['Time']) for track in TRACKS]
-bestStr = [str(timedelta(seconds=i))[2:-4] for i in bestTimes] 
+bestStr = [str(timedelta(seconds=i))[2:mk.TPREC] for i in bestTimes] 
 ###############################################################################
 # Violin Plot
 ###############################################################################
@@ -53,7 +53,7 @@ else:
         go.Violin(
             x=data['Track'], y=data['Time'],
             points=False, line_color='#2614ED', 
-            spanmode='hard', line={'width': 1.5}
+            spanmode='hard', line={'width': 1.5},
         )
     )
 # Update axes -----------------------------------------------------------------

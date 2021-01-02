@@ -41,7 +41,7 @@ fig.update_layout(
 # for (i, time) in enumerate(list(finalEntries['Split'])):
 #     fig.add_annotation(
 #         x=dates[i], y=.01,
-#         text=time[:-4],
+#         text=time[:mk.TPREC],
 #         font={'size': 10, 'color': '#233090', 'family': 'monospace'},
 #         showarrow=False,
 #         yref="paper",

@@ -78,7 +78,7 @@ if centered:
                     y=[list(finalCoord)[i]],
                     mode="text", showlegend=False,
                     name="Final Times",
-                    text=[list(finalTime)[i][:-4]],
+                    text=[list(finalTime)[i][:mk.TPREC]],
                     textfont={
                         'size': 15, 
                         'color': ['rgba' + str(i) for i in colorSwatch][i]
@@ -124,7 +124,7 @@ fig.update_layout(
 # Add annotation --------------------------------------------------------------
 for (i, time) in enumerate(pbSplits[1:]):
     fig.add_annotation(
-        x=i+1, y=.01, text=time[:-4],
+        x=i+1, y=.01, text=time[:mk.TPREC],
         font={'size': 8, 'color': '#ff006e', 'family': 'monospace'},
         showarrow=False, yref="paper", textangle=90
     )
