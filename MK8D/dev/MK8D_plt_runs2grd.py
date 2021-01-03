@@ -18,6 +18,7 @@ import MK8D as mk
 )
 centered = True
 TRACKS = mk.TRACKS
+BCOL = 'rgb(255, 255, 255)'
 ###############################################################################
 # Read data
 ###############################################################################
@@ -57,18 +58,22 @@ colors[0] = bc
 ###############################################################################
 # Table
 ###############################################################################
+fills = [
+    colors[dfR[trk]-1] if (trk is not 'ID') else np.array([BCOL]*len(dfT['ID'])) 
+    for trk in (list(TRACKS))
+]
 fig = go.Figure(data=[go.Table(
-    columnwidth=[100] + [100] * len(TRACKS),
+    columnwidth=[300] + [100] * len(TRACKS),
     header=dict(
-        values=rids,
+        values=['']+rids,
         align='center', font=dict(color='black', size=8),
         line_color='black'
     ),
     cells=dict(
-        values=np.array([dfH[trk] for trk in (list(TRACKS))]).T,
-        align='center', font=dict(color='black', size=12),
-        line_color='black', height=12*2
+        values=np.array([[trk] + list(dfH[trk]) for trk in (list(TRACKS))]).T,
+        align='center', font=dict(color='black', size=10),
+        line_color='black', height=12*2, fill_color=np.array([[BCOL] + list(i) for i in fills]).T
     ))
 ])
-fig.show()
+# fig.show()
 fig.write_html(PT_PL)
