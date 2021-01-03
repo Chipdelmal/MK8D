@@ -10,7 +10,6 @@ from colour import Color
 import plotly.graph_objects as go
 import MK8D as mk
 
-# https://plotly.com/python/table/
 
 (PT_DT, PT_PL) = ('./data/MK8D_runs.csv', './plots/Table.html')
 CATS = ('Nitro', 'Retro', 'Bonus', '32', '48')
