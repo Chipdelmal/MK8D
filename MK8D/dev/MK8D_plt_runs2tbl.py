@@ -38,10 +38,12 @@ for cat in CATS:
 colorSwatch = mk.generateColorSwatch(
     '#233090', len(dfT['ID']), alphaOffset=(.1, 1), lumaOffset=(.35, 1)
 )
-highlight = list(Color('#EE006E').get_rgb()) + [.9]
+highlight = list(Color('#FF4294').get_rgb())
+bc = 'rgb({},{},{})'.format(*[i*255 for i in highlight])
 colors = np.array([
     'rgb({},{},{})'.format(i[0]*255, i[1]*255, i[2]*255) for i in colorSwatch
 ])
+colors[0] = bc
 # Rank Order ------------------------------------------------------------------
 for cat in CATS:
     dfR[cat] = dfH[cat].rank().apply(lambda x: int(x)) 
@@ -60,7 +62,7 @@ fig = go.Figure(data=[go.Table(
     cells=dict(
         values=[dfH[cat] for cat in (['ID'] + list(CATS))],
         align='center', font=dict(color='black', size=12),
-        line_color='black', fill_color=fills
+        line_color='black', fill_color=fills, height=12*2
     ))
 ])
 fig.show()
