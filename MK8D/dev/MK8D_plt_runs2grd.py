@@ -72,7 +72,8 @@ fig = go.Figure(data=[go.Table(
     cells=dict(
         values=np.array([[trk] + list(dfH[trk]) for trk in (list(TRACKS))]).T,
         align='center', font=dict(color='black', size=10),
-        line_color='black', height=12*2, fill_color=np.array([[BCOL] + list(i) for i in fills]).T
+        line_color='black', height=10*2, 
+        fill_color=np.array([[BCOL] + list(i) for i in fills]).T
     ))
 ])
 # fig.show()

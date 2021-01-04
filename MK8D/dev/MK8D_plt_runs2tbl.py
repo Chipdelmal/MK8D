@@ -25,7 +25,7 @@ dfT['ID'] = dfH['ID'] = dfR['ID'] = runs['ID'].unique()
 for cat in CATS:
     tracks = mk.CATEGORIES[cat]
     (start, end) = (tracks[0], tracks[-1])
-    dfT[cat] = mk.runsCategoryTimes(runs, start, end) 
+    dfT[cat] = mk.runsCategoryTimes(runs, start, end)
 ###############################################################################
 # Human-Readable
 ###############################################################################
