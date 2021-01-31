@@ -2,6 +2,7 @@
 import time 
 from datetime import datetime
 from datetime import timedelta
+import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -22,6 +23,19 @@ tracks = list(data['Track'].unique())
 bestTimes = [min(data[data['Track'] == track]['Time']) for track in TRACKS]
 worstTimes = [max(data[data['Track'] == track]['Time']) for track in TRACKS]
 bestStr = [str(timedelta(seconds=i))[2:mk.TPREC] for i in bestTimes] 
+###############################################################################
+# Fastest/Slowest segments
+###############################################################################
+ops = (np.min, np.median, np.mean, np.max)
+ts = [
+    [op(data[data['Track'] == track]['Time']) for track in TRACKS] 
+    for op in ops
+]
+stats = [np.sum(i) for i in ts]
+statsStr = [
+    '[{}{}]'.format(i[0].ljust(1), str(timedelta(seconds=i[1]))[:-4].ljust(1))
+    for i in zip(('min ', 'μ ', 'M ', 'max '), stats)
+]
 ###############################################################################
 # Violin Plot
 ###############################################################################
